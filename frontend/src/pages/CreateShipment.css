@@ -410,3 +410,180 @@
         flex-direction: column;
     }
 }
+
+/* Add at the end of frontend/src/pages/CreateShipment.css */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* MULTI-STOP SECTION                                            */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.multi-stop-section {
+    padding: 14px;
+    background: var(--brown-light);
+    border-radius: var(--radius-md);
+    border: 2px dashed var(--primary-brown);
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--primary-brown);
+    flex-shrink: 0;
+}
+
+.checkbox-label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.checkbox-label strong {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+}
+
+.checkbox-hint {
+    font-size: 0.8125rem;
+    color: var(--gray-600);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* INTERMEDIATE STOPS                                            */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.intermediate-stops {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.intermediate-stop-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.stop-number {
+    width: 32px;
+    height: 32px;
+    background: var(--accent-green);
+    color: var(--text-dark);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.stop-input-wrapper {
+    flex: 1;
+}
+
+.remove-stop-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    border: 2px solid rgba(220, 38, 38, 0.3);
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-size: 1.125rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.remove-stop-btn:hover {
+    background: rgba(220, 38, 38, 0.2);
+    border-color: #dc2626;
+}
+
+.add-stop-btn {
+    padding: 10px 20px;
+    background: var(--white);
+    border: 2px dashed var(--primary-brown);
+    border-radius: var(--radius-md);
+    color: var(--primary-brown);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    width: 100%;
+}
+
+.add-stop-btn:hover {
+    background: var(--brown-light);
+    border-style: solid;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* TEXTAREA & NOTES                                              */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.textarea-compact {
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.label-hint {
+    font-weight: 400;
+    color: var(--gray-500);
+    font-size: 0.8125rem;
+}
+
+.form-hint {
+    margin-top: 6px;
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+}
+
+.summary-notes {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.summary-notes span:last-child {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    opacity: 0.9;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE                                                     */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 768px) {
+    .intermediate-stop-item {
+        flex-wrap: wrap;
+    }
+
+    .stop-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.875rem;
+    }
+
+    .remove-stop-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+    }
+}
+

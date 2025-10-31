@@ -87,16 +87,21 @@ function CreateShipment() {
     const [loading, setLoading] = useState(false);
     const [directions, setDirections] = useState(null);
     const mapRef = useRef(null);
+    const [multiStop, setMultiStop] = useState(false);
+    const [intermediateStops, setIntermediateStops] = useState([]);
     
     const [formData, setFormData] = useState({
         pickupLocation: '',
         dropLocation: '',
         pickupCoords: null,
         dropCoords: null,
+        intermediateStops: [],
         productCategory: '',
+        customCategory: '',
         totalWeight: '',
         totalVolume: '',
-        pickupDate: ''
+        pickupDate: '',
+        notes: ''
     });
 
     const { isLoaded } = useJsApiLoader({
@@ -113,7 +118,7 @@ function CreateShipment() {
         { value: 'construction', label: 'Construction', icon: '🧱' },
         { value: 'agricultural', label: 'Agriculture', icon: '🌾' },
         { value: 'machinery', label: 'Machinery', icon: '⚙️' },
-        { value: 'other', label: 'Other', icon: '📦' }
+        { value: 'other', label: 'Other', icon: '✏️' }
     ];
 
     const onMapLoad = useCallback((map) => {
@@ -128,7 +133,7 @@ function CreateShipment() {
         }));
 
         if (formData.dropCoords) {
-            calculateRoute({ lat: place.lat, lng: place.lng }, formData.dropCoords);
+            calculateRoute();
         }
     };
 
@@ -140,35 +145,72 @@ function CreateShipment() {
         }));
 
         if (formData.pickupCoords) {
-            calculateRoute(formData.pickupCoords, { lat: place.lat, lng: place.lng });
+            calculateRoute();
         }
     };
 
-    const calculateRoute = useCallback((origin, destination) => {
-        if (!window.google || !origin || !destination) return;
+    const handleIntermediateSelect = (place, index) => {
+        const updatedStops = [...intermediateStops];
+        updatedStops[index] = {
+            address: place.address,
+            coords: { lat: place.lat, lng: place.lng }
+        };
+        setIntermediateStops(updatedStops);
+        setFormData(prev => ({ ...prev, intermediateStops: updatedStops }));
+        
+        if (formData.pickupCoords && formData.dropCoords) {
+            calculateRoute();
+        }
+    };
+
+    const addIntermediateStop = () => {
+        setIntermediateStops([...intermediateStops, { address: '', coords: null }]);
+    };
+
+    const removeIntermediateStop = (index) => {
+        const updatedStops = intermediateStops.filter((_, i) => i !== index);
+        setIntermediateStops(updatedStops);
+        setFormData(prev => ({ ...prev, intermediateStops: updatedStops }));
+        
+        if (formData.pickupCoords && formData.dropCoords) {
+            calculateRoute();
+        }
+    };
+
+    const calculateRoute = useCallback(() => {
+        if (!window.google || !formData.pickupCoords || !formData.dropCoords) return;
+
+        const waypoints = intermediateStops
+            .filter(stop => stop.coords)
+            .map(stop => ({
+                location: stop.coords,
+                stopover: true
+            }));
 
         const directionsService = new window.google.maps.DirectionsService();
         directionsService.route(
             {
-                origin: origin,
-                destination: destination,
+                origin: formData.pickupCoords,
+                destination: formData.dropCoords,
+                waypoints: waypoints,
+                optimizeWaypoints: true,
                 travelMode: window.google.maps.TravelMode.DRIVING,
             },
             (result, status) => {
                 if (status === 'OK') {
                     setDirections(result);
                     
-                    // Fit bounds to show entire route
                     if (mapRef.current) {
                         const bounds = new window.google.maps.LatLngBounds();
-                        bounds.extend(origin);
-                        bounds.extend(destination);
+                        bounds.extend(formData.pickupCoords);
+                        waypoints.forEach(wp => bounds.extend(wp.location));
+                        bounds.extend(formData.dropCoords);
                         mapRef.current.fitBounds(bounds);
                     }
                 }
             }
         );
-    }, []);
+    }, [formData.pickupCoords, formData.dropCoords, intermediateStops]);
 
     const handleCategorySelect = (category) => {
         setFormData({ ...formData, productCategory: category });
@@ -180,11 +222,15 @@ function CreateShipment() {
 
     const handleNext = () => {
         if (currentStep === 1 && (!formData.pickupLocation || !formData.dropLocation)) {
-            alert('Please select both pickup and drop locations');
+            alert('Please select both pickup and final drop locations');
             return;
         }
         if (currentStep === 2 && !formData.productCategory) {
             alert('Please select a category');
+            return;
+        }
+        if (currentStep === 2 && formData.productCategory === 'other' && !formData.customCategory) {
+            alert('Please specify the product category');
             return;
         }
         if (currentStep === 3 && (!formData.totalWeight || !formData.totalVolume)) {
@@ -244,7 +290,7 @@ function CreateShipment() {
                     </div>
 
                     <form onSubmit={handleSubmit} className="shipment-form-compact">
-                        {/* STEP 1: LOCATIONS */}
+                        {/* STEP 1: LOCATIONS WITH MULTI-STOP */}
                         {currentStep === 1 && (
                             <div className="form-step-compact">
                                 <div className="step-header-inline">
@@ -255,7 +301,7 @@ function CreateShipment() {
                                     </div>
                                 </div>
 
-                                {/* ROW 1: Pickup and Drop side by side */}
+                                {/* ROW 1: Pickup and Final Drop */}
                                 <div className="location-row">
                                     <div className="form-group-compact">
                                         <label className="form-label-compact">Pickup Location *</label>
@@ -268,15 +314,74 @@ function CreateShipment() {
                                     </div>
 
                                     <div className="form-group-compact">
-                                        <label className="form-label-compact">Drop Location *</label>
+                                        <label className="form-label-compact">Final Drop Location *</label>
                                         <PlacesAutocomplete
                                             onSelect={handleDropSelect}
-                                            placeholder="Search drop location..."
+                                            placeholder="Search final drop location..."
                                             value={formData.dropLocation}
                                             onChange={(val) => setFormData({...formData, dropLocation: val})}
                                         />
                                     </div>
                                 </div>
+
+                                {/* Multi-Stop Checkbox */}
+                                <div className="multi-stop-section">
+                                    <label className="checkbox-container">
+                                        <input
+                                            type="checkbox"
+                                            checked={multiStop}
+                                            onChange={(e) => {
+                                                setMultiStop(e.target.checked);
+                                                if (!e.target.checked) {
+                                                    setIntermediateStops([]);
+                                                    setFormData(prev => ({ ...prev, intermediateStops: [] }));
+                                                    calculateRoute();
+                                                }
+                                            }}
+                                        />
+                                        <span className="checkbox-label">
+                                            <strong>Multi-Location Dropping?</strong> 
+                                            <span className="checkbox-hint">Add intermediate stops along the route</span>
+                                        </span>
+                                    </label>
+                                </div>
+
+                                {/* Intermediate Stops */}
+                                {multiStop && (
+                                    <div className="intermediate-stops">
+                                        {intermediateStops.map((stop, index) => (
+                                            <div key={index} className="intermediate-stop-item">
+                                                <div className="stop-number">{index + 1}</div>
+                                                <div className="stop-input-wrapper">
+                                                    <PlacesAutocomplete
+                                                        onSelect={(place) => handleIntermediateSelect(place, index)}
+                                                        placeholder={`Stop ${index + 1} location...`}
+                                                        value={stop.address}
+                                                        onChange={(val) => {
+                                                            const updated = [...intermediateStops];
+                                                            updated[index] = { ...updated[index], address: val };
+                                                            setIntermediateStops(updated);
+                                                        }}
+                                                    />
+                                                </div>
+                                                <button
+                                                    type="button"
+                                                    className="remove-stop-btn"
+                                                    onClick={() => removeIntermediateStop(index)}
+                                                >
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        ))}
+                                        <button
+                                            type="button"
+                                            className="add-stop-btn"
+                                            onClick={addIntermediateStop}
+                                        >
+                                            + Add Stop
+                                        </button>
+                                    </div>
+                                )}
 
                                 {/* ROW 2: Map */}
                                 <div className="map-container">
@@ -296,6 +401,15 @@ function CreateShipment() {
                                                 label={{ text: "A", color: "white" }}
                                             />
                                         )}
+                                        {intermediateStops.map((stop, index) => 
+                                            stop.coords && (
+                                                <Marker
+                                                    key={index}
+                                                    position={stop.coords}
+                                                    label={{ text: (index + 1).toString(), color: "white" }}
+                                                />
+                                            )
+                                        )}
                                         {formData.dropCoords && (
                                             <Marker 
                                                 position={formData.dropCoords} 
@@ -308,12 +422,15 @@ function CreateShipment() {
 
                                 {directions && (
                                     <div className="route-info-compact">
-                                        <span>📏 {directions.routes[0].legs[0].distance.text}</span>
-                                        <span>⏱️ {directions.routes[0].legs[0].duration.text}</span>
+                                        <span>📏 {directions.routes[0].legs.reduce((acc, leg) => acc + leg.distance.value, 0) / 1000} km</span>
+                                        <span>⏱️ {Math.round(directions.routes[0].legs.reduce((acc, leg) => acc + leg.duration.value, 0) / 3600)} hrs</span>
+                                        {intermediateStops.length > 0 && (
+                                            <span>🛑 {intermediateStops.length} stop{intermediateStops.length > 1 ? 's' : ''}</span>
+                                        )}
                                     </div>
                                 )}
 
-                                {/* ROW 3: Continue Button (compact) */}
+                                {/* ROW 3: Continue Button */}
                                 <div className="step-actions-single">
                                     <button type="button" className="btn-compact btn-primary-compact" onClick={handleNext}>
                                         Continue →
@@ -322,14 +439,14 @@ function CreateShipment() {
                             </div>
                         )}
 
-                        {/* STEP 2: CATEGORY */}
+                        {/* STEP 2: CATEGORY + NOTES */}
                         {currentStep === 2 && (
                             <div className="form-step-compact">
                                 <div className="step-header-inline">
                                     <span className="step-icon-small">📦</span>
                                     <div>
                                         <h2 className="step-title-small">Product Category</h2>
-                                        <p className="step-subtitle-small">Select cargo type</p>
+                                        <p className="step-subtitle-small">Select cargo type & add notes</p>
                                     </div>
                                 </div>
 
@@ -349,6 +466,41 @@ function CreateShipment() {
                                     ))}
                                 </div>
 
+                                {/* Custom Category Input (when Other is selected) */}
+                                {formData.productCategory === 'other' && (
+                                    <div className="form-group-compact">
+                                        <label className="form-label-compact">Specify Product Category *</label>
+                                        <input
+                                            type="text"
+                                            name="customCategory"
+                                            className="form-control-compact"
+                                            value={formData.customCategory}
+                                            onChange={handleChange}
+                                            placeholder="e.g., Furniture, Chemicals, Medical Supplies..."
+                                            required
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Notes Section */}
+                                <div className="form-group-compact">
+                                    <label className="form-label-compact">
+                                        Additional Notes (Optional)
+                                        <span className="label-hint"> - Instructions for truck vendor</span>
+                                    </label>
+                                    <textarea
+                                        name="notes"
+                                        className="form-control-compact textarea-compact"
+                                        value={formData.notes}
+                                        onChange={handleChange}
+                                        placeholder="e.g., Fragile items - handle with care, Loading dock closes at 5 PM, Contact person: John (9876543210)..."
+                                        rows="3"
+                                    />
+                                    <p className="form-hint">
+                                        Provide special instructions, handling requirements, or contact details
+                                    </p>
+                                </div>
+
                                 <div className="step-actions-compact">
                                     <button type="button" className="btn-compact btn-secondary-compact" onClick={handleBack}>
                                         ← Back
@@ -360,7 +512,7 @@ function CreateShipment() {
                             </div>
                         )}
 
-                        {/* STEP 3: WEIGHT & VOLUME */}
+                        {/* STEP 3 & 4: Keep existing code */}
                         {currentStep === 3 && (
                             <div className="form-step-compact">
                                 <div className="step-header-inline">
@@ -430,7 +582,6 @@ function CreateShipment() {
                             </div>
                         )}
 
-                        {/* STEP 4: DATE & CONFIRM */}
                         {currentStep === 4 && (
                             <div className="form-step-compact">
                                 <div className="step-header-inline">
@@ -458,12 +609,26 @@ function CreateShipment() {
                                     <h4 className="summary-title-compact">📋 Summary</h4>
                                     <div className="summary-grid-compact">
                                         <div className="summary-row-compact">
-                                            <span>📍 Route:</span>
-                                            <span>{formData.pickupLocation} → {formData.dropLocation}</span>
+                                            <span>📍 Pickup:</span>
+                                            <span>{formData.pickupLocation}</span>
+                                        </div>
+                                        {intermediateStops.map((stop, idx) => (
+                                            <div key={idx} className="summary-row-compact">
+                                                <span>🛑 Stop {idx + 1}:</span>
+                                                <span>{stop.address}</span>
+                                            </div>
+                                        ))}
+                                        <div className="summary-row-compact">
+                                            <span>🏁 Final Drop:</span>
+                                            <span>{formData.dropLocation}</span>
                                         </div>
                                         <div className="summary-row-compact">
                                             <span>📦 Product:</span>
-                                            <span>{categories.find(c => c.value === formData.productCategory)?.label}</span>
+                                            <span>
+                                                {formData.productCategory === 'other' 
+                                                    ? formData.customCategory 
+                                                    : categories.find(c => c.value === formData.productCategory)?.label}
+                                            </span>
                                         </div>
                                         <div className="summary-row-compact">
                                             <span>⚖️ Cargo:</span>
@@ -473,6 +638,12 @@ function CreateShipment() {
                                             <span>📅 Pickup:</span>
                                             <span>{formData.pickupDate || 'Not set'}</span>
                                         </div>
+                                        {formData.notes && (
+                                            <div className="summary-row-compact summary-notes">
+                                                <span>📝 Notes:</span>
+                                                <span>{formData.notes}</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
