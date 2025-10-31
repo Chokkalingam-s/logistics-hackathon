@@ -1,6 +1,6 @@
-/* frontend/src/pages/Auth.css */
+/* frontend/src/pages/KYC.css */
 
-.auth-page {
+.kyc-page {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -9,39 +9,23 @@
     padding: 20px;
 }
 
-.auth-container {
+.kyc-container {
     background: white;
     padding: 40px;
     border-radius: 16px;
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
-.auth-container h2 {
-    font-size: 32px;
+.kyc-container h2 {
+    font-size: 28px;
     margin-bottom: 8px;
     color: #333;
 }
 
-.auth-subtitle {
+.kyc-subtitle {
     color: #666;
     margin-bottom: 32px;
-    font-size: 18px;
-}
-
-.auth-toggle {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-}
-
-.auth-toggle span {
-    color: #667eea;
-    cursor: pointer;
-    font-weight: 600;
-}
-
-.auth-toggle span:hover {
-    text-decoration: underline;
+    font-size: 16px;
 }

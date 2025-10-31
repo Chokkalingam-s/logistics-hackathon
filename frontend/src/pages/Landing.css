@@ -59,3 +59,17 @@
     color: #666;
     margin-bottom: 24px;
 }
+
+@media (max-width: 768px) {
+    .landing-hero h1 {
+        font-size: 48px;
+    }
+    
+    .landing-hero > p {
+        font-size: 18px;
+    }
+    
+    .landing-cards {
+        grid-template-columns: 1fr;
+    }
+}
