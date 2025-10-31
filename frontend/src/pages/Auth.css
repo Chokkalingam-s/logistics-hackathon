@@ -1,0 +1,42 @@
+/* frontend/src/pages/Auth.css */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 20px;
+}
+
+.auth-container {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.auth-container h2 {
+    font-size: 32px;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.auth-subtitle {
+    color: #666;
+    margin-bottom: 32px;
+    font-size: 18px;
+}
+
+.auth-toggle {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+}
+
+.auth-toggle span {
+    color: #667eea;
+    cursor: pointer;
+    font-weight: 600;
+}
