@@ -10,7 +10,7 @@ function SplashScreen() {
     useEffect(() => {
         const timer = setTimeout(() => {
             navigate('/landing');
-        }, 2000);
+        }, 2500);
 
         return () => clearTimeout(timer);
     }, [navigate]);
@@ -18,9 +18,14 @@ function SplashScreen() {
     return (
         <div className="splash-screen">
             <div className="splash-content">
-                <h1 className="splash-logo">🚚 LoadShare</h1>
+                <div className="splash-icon-wrapper">
+                    <span className="splash-icon">🚚</span>
+                </div>
+                <h1 className="splash-brand">NammaSupply</h1>
                 <p className="splash-tagline">Smart Logistics. Shared Savings.</p>
-                <div className="splash-loader"></div>
+                <div className="splash-loader-container">
+                    <div className="splash-loader"></div>
+                </div>
             </div>
         </div>
     );

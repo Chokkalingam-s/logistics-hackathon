@@ -1,0 +1,243 @@
+/* frontend/src/components/Navbar.css */
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* DESKTOP NAVBAR (Top)                                        */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.navbar-desktop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: var(--primary-brown);
+    box-shadow: var(--shadow-md);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.navbar-brand:hover {
+    transform: scale(1.05);
+}
+
+.brand-icon {
+    font-size: 32px;
+}
+
+.brand-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--background-cream);
+    letter-spacing: -0.5px;
+}
+
+.navbar-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-md);
+    color: var(--background-cream);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    position: relative;
+}
+
+.nav-link:hover {
+    background: rgba(254, 250, 224, 0.15);
+}
+
+.nav-link.active {
+    background: rgba(254, 250, 224, 0.2);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
+    height: 3px;
+    background: var(--background-cream);
+    border-radius: 10px 10px 0 0;
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background: var(--background-cream);
+    color: var(--primary-brown);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.user-name {
+    color: var(--background-cream);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* MOBILE NAVBAR (Bottom - Ola/Rapido Style)                   */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.navbar-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: var(--white);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    display: none;
+    padding: 0 var(--spacing-sm);
+}
+
+.navbar-mobile {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.nav-item .nav-icon {
+    font-size: 1.5rem;
+    color: var(--gray-500);
+    transition: all var(--transition-fast);
+}
+
+.nav-item .nav-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    transition: all var(--transition-fast);
+}
+
+.nav-item.active .nav-icon {
+    color: var(--primary-brown);
+    transform: scale(1.1);
+}
+
+.nav-item.active .nav-label {
+    color: var(--primary-brown);
+}
+
+/* Primary Action Button (Center) */
+.nav-item-primary {
+    position: relative;
+    margin-top: -30px;
+}
+
+.nav-item-primary::before {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--primary-brown);
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-lg);
+    z-index: -1;
+}
+
+.nav-icon-lg {
+    font-size: 2rem;
+    color: var(--background-cream);
+}
+
+.nav-item-primary:active::before {
+    transform: scale(0.95);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE                                                    */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 768px) {
+    .navbar-desktop {
+        display: none;
+    }
+    
+    .navbar-mobile {
+        display: flex;
+    }
+    
+    /* Add padding to body to prevent content hiding behind mobile navbar */
+    body {
+        padding-bottom: 80px;
+    }
+}
+
+@media (min-width: 769px) {
+    .navbar-mobile {
+        display: none;
+    }
+    
+    /* Add padding to body to prevent content hiding behind desktop navbar */
+    body {
+        padding-top: 70px;
+    }
+}
