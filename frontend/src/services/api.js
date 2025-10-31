@@ -34,6 +34,7 @@ export const vendorAPI = {
 export const consigneeAPI = {
     submitKYC: (data) => api.post('/consignee/kyc', data),
     createShipment: (data) => api.post('/consignee/shipments', data),
+    getMyShipments: () => api.get('/consignee/shipments'),
     getAvailableTrucks: (shipmentId) => api.get(`/consignee/shipments/${shipmentId}/matches`),
     bookTruck: (data) => api.post('/consignee/bookings', data)
 };

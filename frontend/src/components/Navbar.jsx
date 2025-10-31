@@ -54,7 +54,14 @@ function Navbar() {
                                 </button>
                                 <button className="nav-link">
                                     <span className="nav-icon">🚛</span>
-                                    My Trucks
+                                    My Shipment
+                                </button>
+                                <button 
+                                    className="nav-link"
+                                    onClick={() => navigate('/consignee/create-shipment')}
+                                >
+                                    <span className="nav-icon">➕</span>
+                                                            Create Shipment
                                 </button>
                                 <button className="nav-link">
                                     <span className="nav-icon">📋</span>
@@ -212,9 +219,12 @@ function Navbar() {
                             <span className="nav-icon">📦</span>
                             <span className="nav-label">Shipments</span>
                         </button>
-                        <button className="nav-item nav-item-primary">
-                            <span className="nav-icon-lg">➕</span>
-                        </button>
+        <button 
+            className="nav-item nav-item-primary"
+            onClick={() => navigate('/consignee/create-shipment')}
+        >
+            <span className="nav-icon-lg">➕</span>
+        </button>
                         <button className="nav-item">
                             <span className="nav-icon">🚚</span>
                             <span className="nav-label">Track</span>

@@ -1,0 +1,330 @@
+/* frontend/src/pages/CreateShipment.css */
+
+.create-shipment-page {
+    min-height: 100vh;
+    background: var(--background-cream);
+    padding: var(--spacing-xl) 0;
+}
+
+.shipment-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-xl);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* HEADER                                                        */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.shipment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xl);
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--white);
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.back-btn:hover {
+    border-color: var(--primary-brown);
+    background: var(--brown-light);
+}
+
+.shipment-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin: 0;
+}
+
+.step-indicator {
+    padding: 8px 16px;
+    background: var(--brown-light);
+    color: var(--primary-brown);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    font-weight: 700;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* PROGRESS BAR                                                  */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.progress-bar {
+    height: 8px;
+    background: var(--gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--spacing-2xl);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-brown), var(--accent-green));
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* FORM STEPS                                                    */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.form-step {
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
+    box-shadow: var(--shadow-md);
+    animation: fadeInUp 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.step-icon {
+    font-size: 4rem;
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.step-title {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.step-subtitle {
+    font-size: 1rem;
+    color: var(--gray-600);
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* ROUTE VISUAL                                                  */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.route-summary {
+    background: var(--brown-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xl);
+    margin: var(--spacing-xl) 0;
+}
+
+.route-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.route-point {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.point-icon {
+    font-size: 1.5rem;
+}
+
+.point-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+.route-line {
+    width: 3px;
+    height: 40px;
+    background: var(--primary-brown);
+    margin-left: 12px;
+    border-radius: 10px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CATEGORY GRID                                                 */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: var(--spacing-lg);
+    background: var(--white);
+    border: 3px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-align: center;
+}
+
+.category-card:hover {
+    border-color: var(--primary-brown);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.category-card.selected {
+    border-color: var(--primary-brown);
+    background: var(--brown-light);
+}
+
+.category-icon {
+    font-size: 2.5rem;
+}
+
+.category-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-dark);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* CARGO SUMMARY                                                 */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.cargo-summary,
+.final-summary {
+    background: var(--green-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin: var(--spacing-xl) 0;
+}
+
+.cargo-summary h4,
+.final-summary h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-md);
+}
+
+.summary-grid {
+    display: grid;
+    gap: var(--spacing-sm);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) 0;
+}
+
+.summary-label {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    font-weight: 600;
+}
+
+.summary-value {
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    font-weight: 700;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* FINAL SUMMARY                                                 */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.summary-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+}
+
+.summary-icon {
+    font-size: 1.5rem;
+}
+
+.summary-row .summary-label {
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+    margin-bottom: 4px;
+}
+
+.summary-row .summary-value {
+    font-size: 1rem;
+    color: var(--text-dark);
+    font-weight: 600;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* STEP ACTIONS                                                  */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+.step-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+}
+
+.step-actions .btn {
+    flex: 1;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+/* RESPONSIVE                                                     */
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+@media (max-width: 768px) {
+    .shipment-container {
+        padding: 0 var(--spacing-md);
+    }
+
+    .shipment-header {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+
+    .shipment-title {
+        font-size: 1.5rem;
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .step-actions {
+        flex-direction: column;
+    }
+}

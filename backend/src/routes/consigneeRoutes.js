@@ -3,22 +3,12 @@
 const express = require('express');
 const router = express.Router();
 const { protect } = require('../middleware/auth');
+const consigneeController = require('../controllers/consigneeController');
 
-// Placeholder routes
-router.post('/kyc', protect, async (req, res) => {
-    res.json({ success: true, message: 'Consignee KYC route working' });
-});
-
-router.post('/shipments', protect, async (req, res) => {
-    res.json({ success: true, message: 'Create shipment route working' });
-});
-
-router.get('/shipments/:id/matches', protect, async (req, res) => {
-    res.json({ success: true, matches: [] });
-});
-
-router.post('/bookings', protect, async (req, res) => {
-    res.json({ success: true, message: 'Booking created' });
-});
+router.post('/kyc', protect, consigneeController.submitKYC);
+router.post('/shipments', protect, consigneeController.createShipment);
+router.get('/shipments', protect, consigneeController.getMyShipments);
+router.get('/shipments/:shipmentId/matches', protect, consigneeController.getAvailableTrucks);
+router.post('/bookings', protect, consigneeController.bookTruck);
 
 module.exports = router;

@@ -1,4 +1,4 @@
-// frontend/src/pages/ConsigneeDashboard.jsx
+// frontend/src/pages/ConsigneeDashboard.jsx (UPDATE ACTION BUTTONS)
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -86,7 +86,11 @@ function ConsigneeDashboard() {
                         <h2 className="section-title">Quick Actions</h2>
                         
                         <div className="action-grid">
-                            <button className="action-card action-primary">
+                            {/* UPDATE THIS BUTTON */}
+                            <button 
+                                className="action-card action-primary"
+                                onClick={() => navigate('/consignee/create-shipment')}
+                            >
                                 <div className="action-content">
                                     <div className="action-icon">📦</div>
                                     <div>

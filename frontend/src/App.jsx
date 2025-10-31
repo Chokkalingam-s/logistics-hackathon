@@ -9,6 +9,7 @@ import VendorKYC from './pages/VendorKYC';
 import VendorDashboard from './pages/VendorDashboard';
 import ConsigneeKYC from './pages/ConsigneeKYC';
 import ConsigneeDashboard from './pages/ConsigneeDashboard';
+import CreateShipment from './pages/CreateShipment';
 import './styles/global.css';
 
 // Protected Route Component
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/landing" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
                 
+                {/* Vendor Routes */}
                 <Route 
                     path="/vendor/kyc" 
                     element={
@@ -42,6 +44,7 @@ function App() {
                     } 
                 />
                 
+                {/* Consignee Routes */}
                 <Route 
                     path="/consignee/kyc" 
                     element={
@@ -55,6 +58,14 @@ function App() {
                     element={
                         <ProtectedRoute>
                             <ConsigneeDashboard />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/consignee/create-shipment" 
+                    element={
+                        <ProtectedRoute>
+                            <CreateShipment />
                         </ProtectedRoute>
                     } 
                 />
