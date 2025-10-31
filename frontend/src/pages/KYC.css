@@ -5,27 +5,134 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px;
+    padding: var(--spacing-xl);
+    background: var(--background-cream);
 }
 
 .kyc-container {
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
     width: 100%;
-    max-width: 500px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    max-width: 580px;
+    box-shadow: var(--shadow-md);
 }
 
-.kyc-container h2 {
-    font-size: 28px;
-    margin-bottom: 8px;
-    color: #333;
+.kyc-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+}
+
+.kyc-icon {
+    font-size: 4rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.kyc-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-sm);
 }
 
 .kyc-subtitle {
-    color: #666;
-    margin-bottom: 32px;
-    font-size: 16px;
+    color: var(--gray-600);
+    font-size: 1rem;
+}
+
+.kyc-progress {
+    margin-bottom: var(--spacing-2xl);
+}
+
+.progress-bar {
+    height: 8px;
+    background: var(--gray-200);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--spacing-sm);
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-brown), var(--accent-green));
+    border-radius: var(--radius-full);
+    transition: width var(--transition-slow);
+}
+
+.progress-text {
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    font-weight: 600;
+}
+
+.kyc-form {
+    margin-bottom: var(--spacing-xl);
+}
+
+.required {
+    color: #dc2626;
+    margin-left: 4px;
+}
+
+.form-hint {
+    margin-top: 6px;
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+}
+
+.kyc-benefits {
+    background: var(--brown-light);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.kyc-benefits h4 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-brown);
+    margin-bottom: var(--spacing-md);
+}
+
+.kyc-benefits ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.kyc-benefits li {
+    padding: 6px 0;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+}
+
+.kyc-actions {
+    margin-bottom: var(--spacing-lg);
+}
+
+.kyc-footer {
+    text-align: center;
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--gray-200);
+}
+
+.kyc-footer p {
+    font-size: 0.875rem;
+    color: var(--gray-600);
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .kyc-page {
+        padding: var(--spacing-md);
+    }
+    
+    .kyc-container {
+        padding: var(--spacing-xl);
+    }
+    
+    .kyc-title {
+        font-size: 1.75rem;
+    }
 }

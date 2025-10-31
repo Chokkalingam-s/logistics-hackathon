@@ -11,6 +11,12 @@ import ConsigneeKYC from './pages/ConsigneeKYC';
 import ConsigneeDashboard from './pages/ConsigneeDashboard';
 import './styles/global.css';
 
+// Protected Route Component
+function ProtectedRoute({ children }) {
+    const token = localStorage.getItem('token');
+    return token ? children : <Navigate to="/login" />;
+}
+
 function App() {
     return (
         <BrowserRouter>
@@ -18,10 +24,43 @@ function App() {
                 <Route path="/" element={<SplashScreen />} />
                 <Route path="/landing" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/vendor/kyc" element={<VendorKYC />} />
-                <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-                <Route path="/consignee/kyc" element={<ConsigneeKYC />} />
-                <Route path="/consignee/dashboard" element={<ConsigneeDashboard />} />
+                
+                <Route 
+                    path="/vendor/kyc" 
+                    element={
+                        <ProtectedRoute>
+                            <VendorKYC />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/vendor/dashboard" 
+                    element={
+                        <ProtectedRoute>
+                            <VendorDashboard />
+                        </ProtectedRoute>
+                    } 
+                />
+                
+                <Route 
+                    path="/consignee/kyc" 
+                    element={
+                        <ProtectedRoute>
+                            <ConsigneeKYC />
+                        </ProtectedRoute>
+                    } 
+                />
+                <Route 
+                    path="/consignee/dashboard" 
+                    element={
+                        <ProtectedRoute>
+                            <ConsigneeDashboard />
+                        </ProtectedRoute>
+                    } 
+                />
+                
+                {/* Catch all - redirect to landing */}
+                <Route path="*" element={<Navigate to="/landing" />} />
             </Routes>
         </BrowserRouter>
     );
