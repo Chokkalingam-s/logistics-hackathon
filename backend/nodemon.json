@@ -1,0 +1,11 @@
+{
+  "watch": ["src", "models"],
+  "ext": "js,json",
+  "ignore": ["node_modules/", "*.test.js"],
+  "exec": "node src/server.js",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "colours": true,
+  "delay": "1000"
+}
